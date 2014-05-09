@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 	else {
 		printusage(argv[0]);
 	}
-	return 1;
+	return 0;
 }
 
 
