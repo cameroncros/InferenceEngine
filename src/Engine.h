@@ -8,7 +8,32 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
+#include <map>
+#include <string>
+#include <vector>
+
+typedef enum value {
+	TRUE,
+	FALSE,
+	UNDEFINED
+} value;
+
+typedef struct rule {
+	std::string name;
+	std::vector<rule *> children;
+	value val;
+
+} rule;
+
 class Engine {
+private:
+	const char *filename;
+	std::map<std::string, rule*> allRules;
+	rule *target;
+
+	void replace(std::string &str, const char *from, const char *to);
+	std::vector<std::string> *split(std::string &str, const char *val);
+
 public:
 	Engine();
 	virtual ~Engine();
@@ -16,6 +41,8 @@ public:
 	virtual void run()=0;
 	virtual void print()=0;
 
+	void load(const char *file);
+	void printKnowledgeBase();
 };
 
 #endif /* ENGINE_H_ */

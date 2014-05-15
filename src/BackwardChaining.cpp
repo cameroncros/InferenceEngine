@@ -7,8 +7,7 @@
 
 #include "BackwardChaining.h"
 
-BackwardChaining::BackwardChaining(KnowledgeBase *kb) {
-	// TODO Auto-generated constructor stub
+BackwardChaining::BackwardChaining() {
 
 }
 
@@ -17,6 +16,13 @@ BackwardChaining::~BackwardChaining() {
 }
 
 void BackwardChaining::run() {
+	while (true) {
+
+
+
+
+	}
+
 }
 
 void BackwardChaining::print() {

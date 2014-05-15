@@ -9,11 +9,10 @@
 #define TRUTHTABLE_H_
 
 #include "Engine.h"
-#include "KnowledgeBase.h"
 
 class TruthTable: public Engine {
 public:
-	TruthTable(KnowledgeBase *kb);
+	TruthTable();
 	virtual ~TruthTable();
 
 	void run();

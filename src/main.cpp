@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "KnowledgeBase.h"
 #include "TruthTable.h"
 #include "ForwardChaining.h"
 #include "BackwardChaining.h"
@@ -13,7 +12,6 @@
 
 
 int main(int argc, char **argv) {
-	KnowledgeBase *kb = NULL;
 	enginetype method;
 	Engine *search = NULL;
 	if (!(argc == 3)) {
@@ -23,26 +21,26 @@ int main(int argc, char **argv) {
 	if (method == INVALID) {
 		printusage(argv[0]);
 	}
-	kb = new KnowledgeBase(argv[1]);
-	kb->printKnowledgeBase();
 	switch (method) {
 	case TT:
 		//Calum
-		search = new TruthTable(kb);
+		search = new TruthTable();
 		break;
 	case FC:
 		//Vinayak
-		search = new ForwardChaining(kb);
+		search = new ForwardChaining();
 		break;
 	case BC:
 		//Cameron
-		search = new BackwardChaining(kb);
+		search = new BackwardChaining();
 		break;
 	case INVALID:
 		search = NULL;
 		break;
 	}
 	if (search != NULL) {
+		search->load(argv[1]);
+		search->printKnowledgeBase();
 		search->run();
 		search->print();
 		delete(search);

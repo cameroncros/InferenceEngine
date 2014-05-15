@@ -9,11 +9,10 @@
 #define BACKWARDCHAINING_H_
 
 #include "Engine.h"
-#include "KnowledgeBase.h"
 
 class BackwardChaining: public Engine {
 public:
-	BackwardChaining(KnowledgeBase *kb);
+	BackwardChaining();
 	virtual ~BackwardChaining();
 
 	void run();

@@ -9,11 +9,10 @@
 #define FORWARDCHAINING_H_
 
 #include "Engine.h"
-#include "KnowledgeBase.h"
 
 class ForwardChaining: public Engine {
 public:
-	ForwardChaining(KnowledgeBase *kb);
+	ForwardChaining();
 	virtual ~ForwardChaining();
 
 	void run();

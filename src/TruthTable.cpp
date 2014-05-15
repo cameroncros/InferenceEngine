@@ -6,9 +6,8 @@
  */
 
 #include "TruthTable.h"
-#include "KnowledgeBase.h"
 
-TruthTable::TruthTable(KnowledgeBase *kb) {
+TruthTable::TruthTable() {
 	// TODO Auto-generated constructor stub
 
 }

@@ -7,7 +7,7 @@
 
 #include "ForwardChaining.h"
 
-ForwardChaining::ForwardChaining(KnowledgeBase *kb) {
+ForwardChaining::ForwardChaining() {
 	// TODO Auto-generated constructor stub
 
 }
