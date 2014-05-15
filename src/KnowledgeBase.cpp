@@ -42,7 +42,11 @@ void KnowledgeBase::load() {
 	replace(string, "=>", "&");
 	std::vector<std::string> *rulelist = split(string, ";");
 	for (std::string rulestr : *rulelist) {
+		if (rulestr.length() == 0) {
+			continue;
+		}
 		std::vector<std::string> *parts = split(rulestr, "&");
+		int numRules = parts->size();
 		for (std::string newnode : *parts) {
 			if (allRules.find(newnode) == allRules.end()) {
 				rule *temp = new rule;
@@ -50,20 +54,14 @@ void KnowledgeBase::load() {
 				allRules.insert(std::pair<std::string, rule *>(temp->name, temp));
 			}
 		}
-		rule *temp = allRules[(*parts)[parts->size()-1]];
-		switch (parts->size()) {
-		case 1:
+		rule *temp = allRules[(*parts)[numRules-1]];
+		if (numRules == 1) {
 			temp->val=TRUE;
-			break;
-		case 2:
-			temp->children.push_back(allRules[(*parts)[0]]);
-			break;
-		case 3:
-			temp->children.push_back(allRules[(*parts)[0]]);
-			temp->children.push_back(allRules[(*parts)[1]]);
-			break;
+		} else {
+			for (int i=0; i < (numRules-1); i++) {
+				temp->children.push_back(allRules[(*parts)[i]]);
+			}
 		}
-
 	}
 
 
@@ -76,7 +74,6 @@ void KnowledgeBase::load() {
 	std::getline(file, string);
 	target = allRules[string];
 
-	std::cout << string << std::endl;
 }
 
 void KnowledgeBase::replace(std::string &str, const char *from, const char *to) {
@@ -107,20 +104,30 @@ std::vector<std::string> *KnowledgeBase::split(std::string &str, const char *val
 void KnowledgeBase::printKnowledgeBase() {
 	for (auto i = allRules.begin(); i != allRules.end(); i++) {
 		rule *temp = (*i).second;
-		switch (temp->children.size()) {
-		case 0:
-			std::cout << temp->name << std::endl;
-			continue;
-		case 1:
-			std::cout << temp->children[0]->name;
-			break;
-		case 2:
-			std::cout << temp->children[0]->name << " AND " << temp->children[1]->name;
-			break;
-		default:
-			std::cout << "Something went wrong" << std::endl;
+		int numChildren = temp->children.size();
+		for (int i = 0; i < numChildren-1; i++) {
+			std::cout << temp->children[i]->name << " AND ";
 		}
-		std::cout << " IMPLYS " << temp->name << std::endl;
+
+
+		if (numChildren != 0) {
+			std::cout << temp->children[numChildren-1]->name << " IMPLYS " << temp->name << std::endl;
+		} else {
+			switch (temp->val) {
+			case TRUE:
+				std::cout << temp->name << "EQUALS TRUE" << std::endl;
+				break;
+			case FALSE:
+				std::cout << temp->name << "EQUALS FALSE" << std::endl;
+				break;
+			case UNDEFINED:
+				std::cout << temp->name << "EQUALS UNKNOWN" << std::endl;
+				break;
+			}
+		}
 	}
+
+	std::cout << "ASKED FOR " << target->name << std::endl;
+
 }
 

@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
 		printusage(argv[0]);
 	}
 	kb = new KnowledgeBase(argv[1]);
+	kb->printKnowledgeBase();
 	switch (method) {
 	case TT:
 		//Calum
