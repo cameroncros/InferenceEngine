@@ -27,14 +27,14 @@ typedef struct rule {
 
 class Engine {
 private:
-	const char *filename;
-	std::map<std::string, rule*> allRules;
-	rule *target;
-
 	void replace(std::string &str, const char *from, const char *to);
 	std::vector<std::string> *split(std::string &str, const char *val);
 
 public:
+	const char *filename;
+	std::map<std::string, rule*> allRules;
+	rule *target;
+
 	Engine();
 	virtual ~Engine();
 
@@ -43,6 +43,8 @@ public:
 
 	void load(const char *file);
 	void printKnowledgeBase();
+
+	value checkRule(rule *);
 };
 
 #endif /* ENGINE_H_ */

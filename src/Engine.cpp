@@ -12,6 +12,8 @@
 #include <stdlib.h>
 
 Engine::Engine() {
+	target = NULL;
+	filename = NULL;
 	// TODO Auto-generated constructor stub
 
 }
@@ -126,5 +128,22 @@ void Engine::printKnowledgeBase() {
 	}
 
 	std::cout << "ASKED FOR " << target->name << std::endl;
+
+}
+
+value Engine::checkRule(rule *rl) {
+	if (rl->val == TRUE) {
+		return TRUE;
+	}
+	for (rule *l : rl->children) {
+		switch (l->val) {
+		case TRUE:
+			continue;
+		default:
+			return l->val;
+
+		}
+	}
+	return TRUE;
 
 }
