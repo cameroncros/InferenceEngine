@@ -22,6 +22,8 @@ typedef struct rule {
 	std::string name;
 	std::vector<rule *> children;
 	value val;
+	//Distinguishes between which are rules and which are just values
+	bool isRule;
 
 } rule;
 

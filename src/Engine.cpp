@@ -51,6 +51,7 @@ void Engine::load(const char *filestr) {
 			if (allRules.find(newnode) == allRules.end()) {
 				rule *temp = new rule;
 				temp->name = newnode;
+				temp->isRule = false;
 				allRules.insert(std::pair<std::string, rule *>(temp->name, temp));
 			}
 		}
@@ -58,10 +59,12 @@ void Engine::load(const char *filestr) {
 		if (numRules == 1) {
 			temp->val=TRUE;
 		} else {
+			temp->val=UNDEFINED;
 			for (int i=0; i < (numRules-1); i++) {
 				temp->children.push_back(allRules[(*parts)[i]]);
 			}
 		}
+		temp->isRule = true;
 	}
 
 

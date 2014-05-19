@@ -15,6 +15,7 @@
 class TruthTable: public Engine {
 private:
 	int modelsFound = 0;
+	bool impliedByKnowledgeBase = true;
 
 	std::vector<rule *> *findRules(rule* parentRule);
 	value truthCheck(rule *toCheck);

@@ -22,60 +22,59 @@ TruthTable::~TruthTable() {
 
 void TruthTable::run() 
 {
-	//Get a list of rules to put through the truth table
-	std::vector<rule *> *discoveredRules = findRules(target);
-
-	int numRules = discoveredRules->size();
-
-	//Set the value of the target to true to ensure we only return results matching the "ASK"
-	std::map<std::string, value> valueMap;
-	valueMap[target->name] = TRUE;
-
-	discoveredRules->push_back(target);
+	int numRules = allRules.size();
 
 	//Go through all numbers from 0 to 2^x where x is the number of values in the truth table, and find if model of the "ASK"
 	for (int i = 0; i < pow(2, numRules); i++)
 	{
-		//Convert to map representing row of truth table
-		for (int j = 0; j < numRules; j++)
+		int j = 0;
+		//Set values
+		for (auto rule : allRules)
 		{
 			if ((i & (1 << j)) != 0)
-				valueMap[discoveredRules->at(j)->name] = TRUE;
+				rule.second->val = TRUE;
 			else
-				valueMap[discoveredRules->at(j)->name] = FALSE;
+				rule.second->val = FALSE;
+			j++;
+		}
+
+		if (allRules["a"]->val == TRUE && allRules["b"]->val == TRUE && allRules["c"]->val == TRUE && allRules["d"]->val == TRUE && allRules["e"]->val == TRUE && allRules["f"]->val == TRUE && allRules["g"]->val == FALSE && allRules["p1"]->val == TRUE &&allRules["p2"]->val == TRUE &&allRules["p3"]->val == TRUE)
+		{
+			bool shouldBeTrue = true;
 		}
 
 		//Go through each rule and check if true with given values of variables
-		bool isModel = true;
-		for (rule *currentRule : *discoveredRules)
+		bool isPartOfKnowledgeBase = true;
+		for (auto currentRule : allRules)
 		{
-			//Set the values in the 'rule' variables from the mappings
-			currentRule->val = valueMap[currentRule->name];
-			for (rule *child : currentRule->children)
+			if (!currentRule.second->isRule)
+				continue;
+			//If the selected inputs don't match the knowledge base for this rule, then break, as none of the knowledge base will match
+			if (truthCheck(currentRule.second) == FALSE)
 			{
-				child->val = valueMap[child->name];
-			}
-
-			//If one element of the KB is false it's not a model, so don't check the rest
-			if (truthCheck(currentRule) == FALSE)
-			{
-				isModel = false;
+				isPartOfKnowledgeBase = false;
 				break;
 			}
 		}
 
-		//Increment models found count
-		if (isModel)
-			modelsFound++;
+		//If combination of values matches the knowledge base and the ASK is true, it is a model of the ASK, and so increment the count
+		if (isPartOfKnowledgeBase)
+		{
+			if (allRules[target->name]->val == TRUE)
+				modelsFound++;
+			else
+				impliedByKnowledgeBase = false;
+		}
+			
 	}
 }
 
 void TruthTable::print() 
 {
-	if (modelsFound > 0)
-		std::cout << "YES " << modelsFound;
+	if (impliedByKnowledgeBase)
+		std::cout << "YES : " << modelsFound << std::endl;
 	else
-		std::cout << "NO 0";
+		std::cout << "NO : " << modelsFound << std::endl;
 }
 
 //Finds all rules related to the given rule
@@ -102,20 +101,28 @@ std::vector<rule *> *TruthTable::findRules(rule* parentRule)
 //Checks whether the current rule (with the current values) equates to true or false
 value TruthTable::truthCheck(rule *toCheck)
 {
+	//IF there are no children the knowledge base requires it be true. If this is not the case return false as it doesn't match the knowledge base.
+	if (toCheck->children.size() == 0)
+	{
+		if( toCheck->val == TRUE)
+			return TRUE;
+		else return FALSE;
+	}
+
 	//And all of the children (LHS of the implication) together, setting andedresult to the result
 	bool andedResult = true;
 	for (rule *child : toCheck->children)
 	{
 		if (child->val == FALSE)
 		{
-			andedResult = true;
+			andedResult = false;
 			break;
 		}
 	}
 
 	//Perform the implication using current values
-	if (!andedResult || toCheck->val == TRUE)
-		return TRUE;
+	if (andedResult)
+		return toCheck->val;
 	else
-		return FALSE;
+		return TRUE;
 }
