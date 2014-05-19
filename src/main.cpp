@@ -40,7 +40,6 @@ int main(int argc, char **argv) {
 	}
 	if (search != NULL) {
 		search->load(argv[1]);
-		search->printKnowledgeBase();
 		search->run();
 		search->print();
 		delete(search);
