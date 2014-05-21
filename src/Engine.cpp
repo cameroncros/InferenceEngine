@@ -32,12 +32,14 @@ void Engine::load(const char *filestr) {
 	}
 
 	std::getline(file, string);
+	removeLineEndings(string);
 	if (string.compare("TELL") != 0) {
 		std::cout << "File seems to be invalid" << std::endl;
 		exit(-1);
 	}
 
 	std::getline(file, string);
+	removeLineEndings(string);
 	replace(string, " ", "");
 	replace(string, "=>", "&");
 	std::vector<std::string> *rulelist = split(string, ";");
@@ -51,6 +53,7 @@ void Engine::load(const char *filestr) {
 			if (allRules.find(newnode) == allRules.end()) {
 				rule *temp = new rule;
 				temp->name = newnode;
+				temp->val = UNDEFINED;
 				temp->isRule = false;
 				allRules.insert(std::pair<std::string, rule *>(temp->name, temp));
 			}
@@ -69,12 +72,14 @@ void Engine::load(const char *filestr) {
 
 
 	std::getline(file, string);
+	removeLineEndings(string);
 	if (string.compare("ASK") != 0) {
 		std::cout << "File seems to be invalid" << std::endl;
 		exit(-1);
 	}
 
 	std::getline(file, string);
+	removeLineEndings(string);
 	target = allRules[string];
 
 }
@@ -88,6 +93,12 @@ void Engine::replace(std::string &str, const char *from, const char *to) {
 		str.insert(pos, toString);
 	}
 }
+
+//this is needed to remove stray \n and \r that popup on other platforms (linux)
+void Engine::removeLineEndings(std::string &str) {
+	replace(str, "\n", "");
+	replace(str, "\r", "");
+}	
 
 std::vector<std::string> *Engine::split(std::string &str, const char *val) {
 	std::string value(val);
@@ -138,6 +149,9 @@ value Engine::checkRule(rule *rl) {
 	if (rl->val == TRUE) {
 		return TRUE;
 	}
+	if (rl->children.size() == 0 ) {
+		return rl->val;
+	}
 	for (rule *l : rl->children) {
 		switch (l->val) {
 		case TRUE:
@@ -148,5 +162,4 @@ value Engine::checkRule(rule *rl) {
 		}
 	}
 	return TRUE;
-
 }

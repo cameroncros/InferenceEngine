@@ -31,7 +31,7 @@ class Engine {
 private:
 	void replace(std::string &str, const char *from, const char *to);
 	std::vector<std::string> *split(std::string &str, const char *val);
-
+	void removeLineEndings(std::string &str);
 public:
 	const char *filename;
 	std::map<std::string, rule*> allRules;
