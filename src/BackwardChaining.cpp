@@ -45,12 +45,12 @@ void BackwardChaining::run() {
 				found = true;
 				return;
 			}
-			if (noChangeCount == 3) { //checks if there has been any progress
-				found = false;
-				return;
-			}
-			noChangeCount++;
 		}
+		if (noChangeCount == 3) { //checks if there has been any progress
+			found = false;
+			return;
+		}
+		noChangeCount++;
 	}
 
 }
