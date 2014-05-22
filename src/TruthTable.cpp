@@ -38,11 +38,6 @@ void TruthTable::run()
 			j++;
 		}
 
-		if (allRules["a"]->val == TRUE && allRules["b"]->val == TRUE && allRules["c"]->val == TRUE && allRules["d"]->val == TRUE && allRules["e"]->val == TRUE && allRules["f"]->val == TRUE && allRules["g"]->val == FALSE && allRules["p1"]->val == TRUE &&allRules["p2"]->val == TRUE &&allRules["p3"]->val == TRUE)
-		{
-			bool shouldBeTrue = true;
-		}
-
 		//Go through each rule and check if true with given values of variables
 		bool isPartOfKnowledgeBase = true;
 		for (auto currentRule : allRules)
