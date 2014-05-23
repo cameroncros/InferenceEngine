@@ -1,11 +1,11 @@
 /*
- * TruthTable.cpp
- *
- *  Created on: 08/05/2014
- *      Author: Cameron
- *	Modified on: 17/05/2014
- *		Author: Calum
- */
+* TruthTable.cpp
+*
+*  Created on: 08/05/2014
+*      Author: Cameron
+*	Modified on: 17/05/2014
+*		Author: Calum
+*/
 
 #include "TruthTable.h"
 #include <math.h>
@@ -20,7 +20,7 @@ TruthTable::~TruthTable() {
 	// TODO Auto-generated destructor stub
 }
 
-void TruthTable::run() 
+void TruthTable::run()
 {
 	int numRules = allRules.size();
 
@@ -58,18 +58,21 @@ void TruthTable::run()
 			if (allRules[target->name]->val == TRUE)
 				modelsFound++;
 			else
+			{
 				impliedByKnowledgeBase = false;
+				return;
+			}
 		}
-			
+
 	}
 }
 
-void TruthTable::print() 
+void TruthTable::print()
 {
 	if (impliedByKnowledgeBase)
 		std::cout << "YES : " << modelsFound << std::endl;
 	else
-		std::cout << "NO : " << modelsFound << std::endl;
+		std::cout << "NO";
 }
 
 //Finds all rules related to the given rule
@@ -99,7 +102,7 @@ value TruthTable::truthCheck(rule *toCheck)
 	//IF there are no children the knowledge base requires it be true. If this is not the case return false as it doesn't match the knowledge base.
 	if (toCheck->children.size() == 0)
 	{
-		if( toCheck->val == TRUE)
+		if (toCheck->val == TRUE)
 			return TRUE;
 		else return FALSE;
 	}
