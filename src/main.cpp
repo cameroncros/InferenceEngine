@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 		search = new TruthTable();
 		break;
 	case FC:
-		//Vinayak
+		//Calum - Vinayak did not complete.
 		search = new ForwardChaining();
 		break;
 	case BC:
