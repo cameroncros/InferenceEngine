@@ -13,7 +13,7 @@ Features:
 
 Bugs:
 
-- Forward Chaining gives slightly different results to what is expected.
+- Forward Chaining gives slightly different results to what is in the assignment sheet. However, we beleive that these are still correct results.
 - No memory cleanup preformed, assumed that the program will exit and clean up itself.
 
 Issues:
@@ -34,7 +34,7 @@ a=>b;b=>c;c=>d;d=>e;e=>f;f=>g;g=>h;h=>i;i=>j;j=>k;k=>l;l=>m;m=>n;n=>o;o=>p;p=>q;
 ASK
 d
 
-Removing the last t rule could potentially result in an infinite loop, so this was tested. The code does pass this test.
+Removing the last t rule could potentially result in an infinite loop, so this was tested. The code does pass this test. The Forward Chaining example also passes these tests.
 
 
 
